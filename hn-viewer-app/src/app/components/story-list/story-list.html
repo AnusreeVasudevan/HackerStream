@@ -1,6 +1,6 @@
 <ul class="story-list">
   <li class="story" *ngFor="let story of validStories">
-    <img [src]="'https://picsum.photos/seed/' + story.id + '/200/150'" alt="{{story.title}}" />
+    <img [src]="story.imageUrl" alt="{{story.title}}" />
     <a [href]="story.url" target="_blank" rel="noopener">{{story.title}}</a>
   </li>
 </ul>

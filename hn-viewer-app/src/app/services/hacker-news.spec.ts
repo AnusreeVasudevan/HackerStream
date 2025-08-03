@@ -19,7 +19,7 @@ describe('HackerNews', () => {
   });
 
   it('should fetch stories with query params', () => {
-    const dummy: Story[] = [{ id: 1, title: 'Test', url: 'http://example.com' }];
+    const dummy: Story[] = [{ id: 1, title: 'Test', url: 'http://example.com', imageUrl: 'http://img.com/1.png' }];
 
     service.getStories(1, 'test').subscribe(stories => {
       expect(stories.length).toBe(1);
