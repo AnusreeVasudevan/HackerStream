@@ -16,7 +16,7 @@ public class HackerNewsService : IHackerNewsService
         _cache = cache;
     }
 
-    public async Task<IEnumerable<HackerNewsItem>> GetNewStoriesAsync(int page, int pageSize, string? query)
+    public async Task<IEnumerable<HackerNewsItem>> GetNewStoriesAsync(int page, int limit, string? search)
     {
         var ids = await _cache.GetOrCreateAsync("newstories", async entry =>
         {
@@ -25,8 +25,8 @@ public class HackerNewsService : IHackerNewsService
                    ?? new List<int>();
         });
 
-        var skip = (page - 1) * pageSize;
-        var pageIds = ids.Skip(skip).Take(pageSize * 5); // grab extra for search filtering
+        var skip = (page - 1) * limit;
+        var pageIds = ids.Skip(skip).Take(limit * 5); // grab extra for search filtering
 
         var tasks = pageIds.Select(id => _cache.GetOrCreateAsync($"item-{id}", async e =>
         {
@@ -36,11 +36,11 @@ public class HackerNewsService : IHackerNewsService
         var items = await Task.WhenAll(tasks);
 
         var filtered = items.Where(i => i != null && !string.IsNullOrEmpty(i.Url));
-        if (!string.IsNullOrWhiteSpace(query))
+        if (!string.IsNullOrWhiteSpace(search))
         {
             filtered = filtered.Where(i => !string.IsNullOrEmpty(i.Title) &&
-                                           i.Title.Contains(query, StringComparison.OrdinalIgnoreCase));
+                                           i.Title.Contains(search, StringComparison.OrdinalIgnoreCase));
         }
-        return filtered.Take(pageSize)!;
+        return filtered.Take(limit)!;
     }
 }
