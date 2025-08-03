@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
+import { Story } from '../../services/hacker-news';
 
 @Component({
   selector: 'app-story-list',
@@ -7,5 +8,5 @@ import { Component } from '@angular/core';
   styleUrl: './story-list.css'
 })
 export class StoryList {
-
+  @Input() stories: Story[] = [];
 }

@@ -1,1 +1,4 @@
-<p>search works!</p>
+<form (ngSubmit)="submit()">
+  <input [(ngModel)]="query" name="q" placeholder="Search" />
+  <button type="submit">Search</button>
+</form>
