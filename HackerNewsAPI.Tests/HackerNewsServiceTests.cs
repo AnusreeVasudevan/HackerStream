@@ -7,6 +7,7 @@ using Xunit;
 using System.Threading;
 using System.Threading.Tasks;
 using HackerNewsAPI.Models;
+using System.Linq;
 
 public class HackerNewsServiceTests
 {
@@ -22,6 +23,21 @@ public class HackerNewsServiceTests
 
         Assert.Single(stories);
         Assert.Equal("Title", stories.First().Title);
+    }
+
+    [Fact]
+    public async Task FiltersBySearchTerm()
+    {
+        var handler = new FakeHttpHandler();
+        var client = new HttpClient(handler);
+        var cache = new MemoryCache(new MemoryCacheOptions());
+        var service = new HackerNewsService(client, cache);
+
+        var match = await service.GetNewStoriesAsync(1, 10, "Title");
+        Assert.Single(match);
+
+        var none = await service.GetNewStoriesAsync(1, 10, "Missing");
+        Assert.Empty(none);
     }
 }
 
