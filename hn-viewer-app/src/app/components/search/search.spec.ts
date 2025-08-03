@@ -20,4 +20,11 @@ describe('Search', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it('should emit search query', () => {
+    spyOn(component.search, 'emit');
+    component.query = 'Angular';
+    component.submit();
+    expect(component.search.emit).toHaveBeenCalledWith('Angular');
+  });
 });

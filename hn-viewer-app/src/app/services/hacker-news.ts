@@ -14,10 +14,10 @@ export interface Story {
 export class HackerNews {
   constructor(private http: HttpClient) {}
 
-  getStories(page: number, query?: string): Observable<Story[]> {
-    let params = new HttpParams().set('page', page);
-    if (query) {
-      params = params.set('query', query);
+  getStories(page: number, search?: string, limit = 20): Observable<Story[]> {
+    let params = new HttpParams().set('page', page).set('limit', limit);
+    if (search) {
+      params = params.set('search', search);
     }
     return this.http.get<Story[]>('/api/stories', { params });
   }
