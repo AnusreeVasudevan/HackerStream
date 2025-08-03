@@ -20,4 +20,25 @@ describe('Pagination', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it('should emit next page', () => {
+    spyOn(component.pageChange, 'emit');
+    component.page = 1;
+    component.next();
+    expect(component.pageChange.emit).toHaveBeenCalledWith(2);
+  });
+
+  it('should emit previous page', () => {
+    spyOn(component.pageChange, 'emit');
+    component.page = 2;
+    component.prev();
+    expect(component.pageChange.emit).toHaveBeenCalledWith(1);
+  });
+
+  it('should not emit previous when on first page', () => {
+    spyOn(component.pageChange, 'emit');
+    component.page = 1;
+    component.prev();
+    expect(component.pageChange.emit).not.toHaveBeenCalled();
+  });
 });
