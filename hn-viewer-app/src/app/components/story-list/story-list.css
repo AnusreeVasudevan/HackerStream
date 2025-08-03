@@ -35,3 +35,21 @@
 .story a:hover {
   text-decoration: underline;
 }
+
+.meta {
+  font-size: 0.8rem;
+  color: #666;
+  margin-top: 0.25rem;
+}
+
+@media (max-width: 768px) {
+  .story-list {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 480px) {
+  .story-list {
+    grid-template-columns: 1fr;
+  }
+}

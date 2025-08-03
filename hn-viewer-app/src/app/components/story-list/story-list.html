@@ -2,5 +2,9 @@
   <li class="story" *ngFor="let story of validStories">
     <img [src]="'https://picsum.photos/seed/' + story.id + '/200/150'" alt="{{story.title}}" />
     <a [href]="story.url" target="_blank" rel="noopener">{{story.title}}</a>
+    <div class="meta">
+      <span *ngIf="story.score">Score: {{story.score}}</span>
+      <span *ngIf="story.time"> | {{ story.time * 1000 | date:'short' }}</span>
+    </div>
   </li>
 </ul>

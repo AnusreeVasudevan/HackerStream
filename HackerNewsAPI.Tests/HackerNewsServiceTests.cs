@@ -39,6 +39,20 @@ public class HackerNewsServiceTests
         var none = await service.GetNewStoriesAsync(1, 10, "Missing");
         Assert.Empty(none);
     }
+
+    [Fact]
+    public async Task IncludesScoreAndTime()
+    {
+        var handler = new FakeHttpHandler();
+        var client = new HttpClient(handler);
+        var cache = new MemoryCache(new MemoryCacheOptions());
+        var service = new HackerNewsService(client, cache);
+
+        var stories = await service.GetNewStoriesAsync(1, 10, null);
+        var story = stories.First();
+        Assert.Equal(10, story.Score);
+        Assert.Equal(1234, story.Time);
+    }
 }
 
 class FakeHttpHandler : HttpMessageHandler
@@ -49,7 +63,7 @@ class FakeHttpHandler : HttpMessageHandler
         string json = path switch
         {
             "/v0/newstories.json" => "[1]",
-            "/v0/item/1.json" => "{\"id\":1,\"title\":\"Title\",\"url\":\"http://example.com\"}",
+            "/v0/item/1.json" => "{\"id\":1,\"title\":\"Title\",\"url\":\"http://example.com\",\"score\":10,\"time\":1234}",
             _ => "{}"
         };
 

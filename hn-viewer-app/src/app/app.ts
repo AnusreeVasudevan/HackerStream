@@ -11,6 +11,10 @@ export class App implements OnInit {
   stories: Story[] = [];
   page = 1;
   query = '';
+  sort: 'score' | 'time' | '' = '';
+  loading = false;
+  error = '';
+  skeletons = Array.from({ length: 8 });
 
   constructor(private hn: HackerNews) {}
 
@@ -19,7 +23,18 @@ export class App implements OnInit {
   }
 
   load() {
-    this.hn.getStories(this.page, this.query).subscribe(s => (this.stories = s));
+    this.loading = true;
+    this.error = '';
+    this.hn.getStories(this.page, this.query).subscribe({
+      next: s => {
+        this.stories = s;
+        this.loading = false;
+      },
+      error: () => {
+        this.error = 'Failed to load stories';
+        this.loading = false;
+      }
+    });
   }
 
   onSearch(q: string) {
@@ -31,5 +46,9 @@ export class App implements OnInit {
   onPageChange(p: number) {
     this.page = p;
     this.load();
+  }
+
+  onSortChange(sort: string) {
+    this.sort = sort as any;
   }
 }

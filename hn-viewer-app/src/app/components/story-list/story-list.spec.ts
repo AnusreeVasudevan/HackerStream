@@ -31,4 +31,13 @@ describe('StoryList', () => {
     expect(links.length).toBe(1);
     expect(links[0].textContent).toContain('With URL');
   });
+
+  it('should sort stories by score', () => {
+    component.stories = [
+      { id: 1, title: 'Low', url: 'http://a', score: 5 },
+      { id: 2, title: 'High', url: 'http://b', score: 10 }
+    ];
+    component.sort = 'score';
+    expect(component.validStories[0].id).toBe(2);
+  });
 });

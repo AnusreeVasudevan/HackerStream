@@ -1,6 +1,15 @@
 <div class="app-container">
-  <h1 class="app-title">hackerstream</h1>
+  <h1 class="app-title">HackerStream</h1>
   <app-search (search)="onSearch($event)"></app-search>
-  <app-story-list [stories]="stories"></app-story-list>
+  <select class="sort-select" (change)="onSortChange($event.target.value)">
+    <option value="">Sort by</option>
+    <option value="score">Score</option>
+    <option value="time">Time</option>
+  </select>
+  <div *ngIf="loading" class="skeleton-list">
+    <div class="skeleton" *ngFor="let s of skeletons"></div>
+  </div>
+  <div *ngIf="error" class="error">{{ error }}</div>
+  <app-story-list *ngIf="!loading && !error" [stories]="stories" [sort]="sort"></app-story-list>
   <app-pagination [page]="page" (pageChange)="onPageChange($event)"></app-pagination>
 </div>
