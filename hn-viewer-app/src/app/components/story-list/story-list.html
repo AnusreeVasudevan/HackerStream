@@ -1,5 +1,5 @@
-<ul>
-  <li *ngFor="let story of validStories">
+<ul class="story-list">
+  <li class="story" *ngFor="let story of validStories">
     <a [href]="story.url" target="_blank" rel="noopener">{{story.title}}</a>
   </li>
 </ul>
