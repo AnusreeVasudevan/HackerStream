@@ -9,8 +9,16 @@ import { Story } from '../../services/hacker-news';
 })
 export class StoryList {
   @Input() stories: Story[] = [];
+  @Input() sort: 'score' | 'time' | '' = '';
 
   get validStories(): Story[] {
-    return this.stories.filter(s => !!s.url);
+    const filtered = this.stories.filter(s => !!s.url);
+    if (this.sort === 'score') {
+      return filtered.sort((a, b) => (b.score ?? 0) - (a.score ?? 0));
+    }
+    if (this.sort === 'time') {
+      return filtered.sort((a, b) => (b.time ?? 0) - (a.time ?? 0));
+    }
+    return filtered;
   }
 }
