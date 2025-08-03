@@ -1,1 +1,5 @@
-<p>pagination works!</p>
+<div>
+  <button (click)="prev()" [disabled]="page <= 1">Previous</button>
+  <span>Page {{page}}</span>
+  <button (click)="next()">Next</button>
+</div>
