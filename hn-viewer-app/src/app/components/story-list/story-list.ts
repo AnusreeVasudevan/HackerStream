@@ -11,6 +11,6 @@ export class StoryList {
   @Input() stories: Story[] = [];
 
   get validStories(): Story[] {
-    return this.stories.filter(s => !!s.url);
+    return this.stories.filter(s => !!s.url && !!s.imageUrl);
   }
 }

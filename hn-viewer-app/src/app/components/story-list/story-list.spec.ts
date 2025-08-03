@@ -21,14 +21,15 @@ describe('StoryList', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should display only stories with urls', () => {
+  it('should display only stories with urls and image previews', () => {
     component.stories = [
-      { id: 1, title: 'With URL', url: 'http://example.com' },
-      { id: 2, title: 'No URL', url: '' }
+      { id: 1, title: 'With URL and image', url: 'http://example.com', imageUrl: 'http://img.com/1.png' },
+      { id: 2, title: 'No URL', url: '', imageUrl: 'http://img.com/2.png' },
+      { id: 3, title: 'No image', url: 'http://example2.com', imageUrl: '' }
     ];
     fixture.detectChanges();
     const links = fixture.nativeElement.querySelectorAll('a');
     expect(links.length).toBe(1);
-    expect(links[0].textContent).toContain('With URL');
+    expect(links[0].textContent).toContain('With URL and image');
   });
 });
