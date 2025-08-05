@@ -1,11 +1,10 @@
 <div class="app-container">
   <h1 class="app-title">HackerStream</h1>
   <app-search (search)="onSearch($event)"></app-search>
-  <select class="sort-select" (change)="onSortChange($event)">
-    <option value="">Sort by</option>
-    <option value="score">Score</option>
-    <option value="time">Time</option>
-  </select>
+  <div class="sort-controls">
+    <button (click)="setSort('score')" [class.active]="sort === 'score'">Score</button>
+    <button (click)="setSort('time')" [class.active]="sort === 'time'">Time</button>
+  </div>
   <div *ngIf="loading" class="skeleton-list">
     <div class="skeleton" *ngFor="let s of skeletons"></div>
   </div>
