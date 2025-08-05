@@ -40,6 +40,21 @@
   font-size: 0.8rem;
   color: #666;
   margin-top: 0.25rem;
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.score-badge {
+  background-color: #ffcc00;
+  color: #333;
+  padding: 0.1rem 0.4rem;
+  border-radius: 4px;
+  font-weight: 600;
+}
+
+.time {
+  color: #999;
 }
 
 @media (max-width: 768px) {

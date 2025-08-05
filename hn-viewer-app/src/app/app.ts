@@ -48,8 +48,7 @@ export class App implements OnInit {
     this.load();
   }
 
-  onSortChange(event: Event) {
-    const value = (event.target as HTMLSelectElement | null)?.value ?? '';
-    this.sort = value as 'score' | 'time' | '';
+  setSort(sort: 'score' | 'time') {
+    this.sort = this.sort === sort ? '' : sort;
   }
 }

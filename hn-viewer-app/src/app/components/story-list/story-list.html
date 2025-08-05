@@ -3,8 +3,8 @@
     <img [src]="'https://picsum.photos/seed/' + story.id + '/200/150'" alt="{{story.title}}" />
     <a [href]="story.url" target="_blank" rel="noopener">{{story.title}}</a>
     <div class="meta">
-      <span *ngIf="story.score">Score: {{story.score}}</span>
-      <span *ngIf="story.time"> | {{ story.time * 1000 | date:'short' }}</span>
+      <span *ngIf="story.score" class="score-badge">★ {{ story.score }}</span>
+      <span *ngIf="story.time" class="time">{{ story.time * 1000 | date:'short' }}</span>
     </div>
   </li>
 </ul>
