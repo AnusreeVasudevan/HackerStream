@@ -21,8 +21,15 @@ public class HackerNewsService : IHackerNewsService
         var ids = await _cache.GetOrCreateAsync("newstories", async entry =>
         {
             entry.AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(5);
-            return await _httpClient.GetFromJsonAsync<List<int>>(BaseUrl + "newstories.json")
-                   ?? new List<int>();
+            try
+            {
+                return await _httpClient.GetFromJsonAsync<List<int>>(BaseUrl + "newstories.json")
+                       ?? new List<int>();
+            }
+            catch (HttpRequestException)
+            {
+                return new List<int>();
+            }
         });
 
         var skip = (page - 1) * limit;
@@ -31,7 +38,14 @@ public class HackerNewsService : IHackerNewsService
         var tasks = pageIds.Select(id => _cache.GetOrCreateAsync($"item-{id}", async e =>
         {
             e.AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(5);
-            return await _httpClient.GetFromJsonAsync<HackerNewsItem>(BaseUrl + $"item/{id}.json");
+            try
+            {
+                return await _httpClient.GetFromJsonAsync<HackerNewsItem>(BaseUrl + $"item/{id}.json");
+            }
+            catch (HttpRequestException)
+            {
+                return null;
+            }
         }));
         var items = await Task.WhenAll(tasks);
 

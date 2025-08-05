@@ -53,6 +53,19 @@ public class HackerNewsServiceTests
         Assert.Equal(10, story.Score);
         Assert.Equal(1234, story.Time);
     }
+
+    [Fact]
+    public async Task ReturnsEmptyWhenRequestFails()
+    {
+        var handler = new ErrorHttpHandler();
+        var client = new HttpClient(handler);
+        var cache = new MemoryCache(new MemoryCacheOptions());
+        var service = new HackerNewsService(client, cache);
+
+        var stories = await service.GetNewStoriesAsync(1, 10, null);
+
+        Assert.Empty(stories);
+    }
 }
 
 class FakeHttpHandler : HttpMessageHandler
@@ -71,5 +84,13 @@ class FakeHttpHandler : HttpMessageHandler
         {
             Content = new StringContent(json, Encoding.UTF8, "application/json")
         });
+    }
+}
+
+class ErrorHttpHandler : HttpMessageHandler
+{
+    protected override Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+    {
+        return Task.FromResult(new HttpResponseMessage(HttpStatusCode.InternalServerError));
     }
 }
