@@ -1,59 +1,114 @@
-# HnViewerApp
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 20.1.4.
+# 📰 HackerStream
 
-## Development server
+HackerStream combines an ASP.NET Core API with an Angular front‑end to display the latest stories from [Hacker News](https://news.ycombinator.com/).
 
-To start a local development server, run:
+This project was completed as part of the Nextech Software Engineer II coding challenge.
+
+---
+
+## 🚀 Features
+
+- **ASP.NET Core API** exposes `/stories` with pagination and optional title search.
+- **In‑memory caching** minimizes Hacker News API calls.
+- **Angular viewer** lists stories with search, score/time sorting, and pagination controls.
+- **Unit tests** cover filtering and metadata fields.
+
+---
+
+## 🧰 Tech Stack
+
+| Layer        | Tools/Frameworks                    |
+|--------------|-------------------------------------|
+| Frontend     | Angular 16, TypeScript              |
+| Backend      | ASP.NET Core (.NET 7)               |
+| Tests        | Jasmine, Karma (Frontend), xUnit-ready |
+| Caching      | In-memory server cache              |
+| API Source   | Hacker News Official API            |
+
+---
+
+## ▶️ Running the Project
+
+### 🔧 Requirements
+
+- [.NET 7 SDK](https://dotnet.microsoft.com/en-us/download/dotnet/7.0)
+- [Node.js 20+](https://nodejs.org/)
+- npm
+
+### 🖥 Backend API
 
 ```bash
-ng serve
+dotnet run --project HackerNewsAPI
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+- API runs at: `http://localhost:5237`
+- Swagger UI available in development
 
-## Code scaffolding
-
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+### 🌐 Angular Viewer
 
 ```bash
-ng generate component component-name
+cd hn-viewer-app
+npm install
+npm start
 ```
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+- App runs at: `http://localhost:4200`
+- Proxies API requests via `proxy.conf.json`
+
+---
+
+## 🧪 Running Tests
+
+### ✅ Frontend (Angular)
 
 ```bash
-ng generate --help
-```
-
-## Building
-
-To build the project run:
-
-```bash
-ng build
-```
-
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
-
-```bash
+cd hn-viewer-app
 ng test
 ```
 
-## Running end-to-end tests
+- Runs Jasmine unit tests via Karma
 
-For end-to-end (e2e) testing, run:
+### ✅ Backend (Optional)
 
 ```bash
-ng e2e
+dotnet test
 ```
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+- Add a test project if needed (`HackerNewsAPI.Tests`)
+- Service classes like `HackerNewsService` are test-ready
 
-## Additional Resources
+---
 
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+## 📦 What's Included
+
+- `HackerNewsService.cs` for cached fetching and search
+- `/stories` controller to return paged stories
+- Angular components for:
+  - Story listing
+  - Search box
+  - Sorting
+  - Pagination
+- Unit tests verifying story metadata, URLs, and filtering
+
+---
+
+## 🌐 Deployment
+
+You can deploy to **Azure App Service** by:
+- Publishing the API (`dotnet publish`)
+- Running Angular `ng build` and copying to API's `wwwroot`
+- Configuring `Startup.cs` for SPA fallback
+
+---
+
+## 👤 Author
+
+**Chandana Reddyreddy**  
+📧 Email: chandana.rr2000@gmail.com  
+
+---
+
+## 📝 License
+
+This project is licensed under the MIT License.
