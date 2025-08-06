@@ -66,19 +66,6 @@ public class HackerNewsServiceTests
 
         Assert.Empty(stories);
     }
-
-    [Fact]
-    public async Task TreatsNonPositivePageAsFirstPage()
-    {
-        var handler = new FakeHttpHandler();
-        var client = new HttpClient(handler);
-        var cache = new MemoryCache(new MemoryCacheOptions());
-        var service = new HackerNewsService(client, cache);
-
-        var stories = await service.GetNewStoriesAsync(0, 10, null);
-
-        Assert.Single(stories);
-    }
 }
 
 class FakeHttpHandler : HttpMessageHandler

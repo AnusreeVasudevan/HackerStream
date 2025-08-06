@@ -18,10 +18,6 @@ public class HackerNewsService : IHackerNewsService
 
     public async Task<IEnumerable<HackerNewsItem>> GetNewStoriesAsync(int page, int limit, string? search)
     {
-        // guard against invalid paging values that could throw exceptions
-        page = Math.Max(1, page);
-        limit = Math.Max(1, limit);
-
         var ids = await _cache.GetOrCreateAsync("newstories", async entry =>
         {
             entry.AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(5);
@@ -30,9 +26,8 @@ public class HackerNewsService : IHackerNewsService
                 return await _httpClient.GetFromJsonAsync<List<int>>(BaseUrl + "newstories.json")
                        ?? new List<int>();
             }
-            catch
+            catch (HttpRequestException)
             {
-                // return an empty list so upstream callers don't receive errors
                 return new List<int>();
             }
         });
@@ -47,7 +42,7 @@ public class HackerNewsService : IHackerNewsService
             {
                 return await _httpClient.GetFromJsonAsync<HackerNewsItem>(BaseUrl + $"item/{id}.json");
             }
-            catch
+            catch (HttpRequestException)
             {
                 return null;
             }
